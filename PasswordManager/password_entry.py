@@ -5,6 +5,7 @@ class PasswordEntry:
         self.password = password
         self.website = website
 
+    #Getters
     def get_website(self):
         return self.website
     
@@ -14,4 +15,24 @@ class PasswordEntry:
     def get_password(self):
         return self.password
     
-    #fart
+    #Setters
+    def set_website(self, website):
+        self.website = website
+
+    def set_username(self, username):
+        self.username = username
+
+    def set_password(self, password):
+        self.password = password
+
+    #Convert entry into a dictionary for easy storage
+    def to_dict(self):
+        return {
+            "username": self.username,
+            "password": self.password,
+            "website": self.website
+        }
+    
+    @classmethod
+    def from_dict(cls, data):
+        return cls(data["username"], data["password"], data["website"])
