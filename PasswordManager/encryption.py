@@ -9,16 +9,16 @@ nonce_size = 12
 key_size = 32
 iterations = 600000
 
-def derive_key(master_password, salt):
-    return hashlib.pbkdf2_hmac("sha256", master_password.encode(), salt, iterations, key_size)
+def derive_key(master_pass, salt):
+    return hashlib.pbkdf2_hmac("sha256", master_pass.encode(), salt, iterations, key_size)
 
 
-def encrypt_vault(plaintext, master_password):
+def encrypt_vault(plaintext, master_pass):
     salt = os.urandom(salt_size)
     nonce = os.urandom(nonce_size)
 
     # master password -> key
-    key = derive_key(master_password, salt)
+    key = derive_key(master_pass, salt)
 
     #encrypt vault
     aesgcm = AESGCM(key)
@@ -33,7 +33,7 @@ def encrypt_vault(plaintext, master_password):
     return { "salt": salt_text, "nonce": nonce_text, "ciphertext": ciphertext_text}
 
 
-def decrypt_vault(encrypted, master_password):
+def decrypt_vault(encrypted, master_pass):
 
     #converting the text back into bytes
     salt = base64.b64decode(encrypted["salt"])
@@ -41,7 +41,7 @@ def decrypt_vault(encrypted, master_password):
     ciphertext = base64.b64decode(encrypted["ciphertext"])
 
     # master password + saved salt = same key
-    key = derive_key(master_password, salt)
+    key = derive_key(master_pass, salt)
 
     #decrypt the vault
     aesgcm = AESGCM(key)
@@ -53,6 +53,7 @@ def decrypt_vault(encrypted, master_password):
     return plaintext
 
 
+# test
 if __name__ == "__main__":
     import json
 
