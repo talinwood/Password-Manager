@@ -19,8 +19,10 @@ def add_entry(entries, username, password, website):
 def list_entries(entries):
     results = []
 
+    # Enumerate through the entries and create a list of dictionaries with entry details
     for index, entry in enumerate(entries, start=1):
 
+        # Append the entry details to the results list
         results.append({
             "number": index,
             "website": entry.get_website(),
@@ -28,3 +30,13 @@ def list_entries(entries):
         })
 
     return results
+
+#View a specific password entry by its index
+def view_entry(entries, entry_number):
+
+    # Validate the entry number
+    if entry_number < 1 or entry_number > len(entries):
+        raise IndexError("Invalid entry number :(")
+    
+    # Return the entry at the specified index (adjusted for 0-based indexing)
+    return entries[entry_number - 1]
