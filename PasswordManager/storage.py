@@ -1,22 +1,25 @@
 import json
 import os
 
-#Save the vault data to a JSON file.
+
+# Save encrypted vault data to a file
 def save_vault(filepath, vault_data):
 
-    # Create a temporary file path
-    temp_path = filepath+ ".tmp"
+    temp_path = filepath + ".tmp"
 
-    # Write the vault data to the temporary file
-    with open(temp_path, 'w') as file:
-        json.dump(vault_data, file)
+    try:
+        with open(temp_path, "w", encoding="utf-8") as file:
+            json.dump(vault_data, file)
 
-    # Atomically replace the original file with the temp file
-    os.replace(temp_path, filepath)
+        os.replace(temp_path, filepath)
 
-# Load the vault data from a JSON file.
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
+
+# Load encrypted vault data from a file
 def load_vault(filepath):
 
-    # Check if the file exists
-    with open(filepath, 'r') as file:
+    with open(filepath, "r", encoding="utf-8") as file:
         return json.load(file)
