@@ -1,14 +1,14 @@
 from password_entry import PasswordEntry
 
 #Add a new password entry to the list of entries
-def add_entry(entries, username, password, website):
+def add_entry(entries, website, username, password,):
 
     # Validate input
     if not website or not username or not password:
         raise ValueError("All fields are required.")
     
     # Check for duplicate entries
-    entry = PasswordEntry(username, password, website)
+    entry = PasswordEntry(website, username, password)
 
     # Check if the entry already exists in the list
     entries.append(entry)
