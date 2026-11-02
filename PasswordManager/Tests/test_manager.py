@@ -2,40 +2,56 @@
 from manager import add_entry, list_entries, view_entry
 
 
-# Create an empty collection
-entries = []
+def test_add_and_list_entries():
+
+    entries = []
+
+    add_entry(
+        entries,
+        "google.com",
+        "example@gmail.com",
+        "password123"
+    )
+
+    add_entry(
+        entries,
+        "github.com",
+        "developer123",
+        "githubpassword"
+    )
+
+    results = list_entries(entries)
+
+    assert len(results) == 2
+    assert results[0]["website"] == "google.com"
+    assert results[1]["website"] == "github.com"
 
 
-# Test adding entries
-add_entry(
-    entries,
-    "google.com",
-    "example@gmail.com",
-    "password123"
-)
+def test_view_entry():
 
-add_entry(
-    entries,
-    "github.com",
-    "developer123",
-    "githubpassword"
-)
+    entries = []
 
+    add_entry(
+        entries,
+        "google.com",
+        "example@gmail.com",
+        "password123"
+    )
 
-# Test listing entries
-results = list_entries(entries)
+    entry = view_entry(entries, 1)
 
-assert len(results) == 2
-assert results[0]["website"] == "google.com"
-assert results[1]["website"] == "github.com"
+    assert entry.get_website() == "google.com"
+    assert entry.get_username() == "example@gmail.com"
+    assert entry.get_password() == "password123"
 
 
-# Test viewing an entry
-entry = view_entry(entries, 1)
+def test_invalid_entry_number():
 
-assert entry.get_website() == "google.com"
-assert entry.get_username() == "example@gmail.com"
-assert entry.get_password() == "password123"
+    entries = []
 
+    try:
+        view_entry(entries, 1)
+        assert False, "Expected IndexError"
 
-print("All manager tests passed!")
+    except IndexError:
+        pass
