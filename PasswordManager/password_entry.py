@@ -36,3 +36,4 @@ class PasswordEntry:
     @classmethod
     def from_dict(cls, data):
         return cls(data["username"], data["password"], data["website"])
+    
