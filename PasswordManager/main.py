@@ -25,3 +25,44 @@ def add_password(entries):
         print("\nPassword entry added successfully!")
     except ValueError as error:
         print(f"Error: {error}")
+
+#View existing password
+def view_password(entries):
+    
+    print("\n--- View Password ---")
+    
+    if not entries:
+        print("No passwords saved yet.")
+        return
+    
+    list_passwords(entries)
+    
+    try:
+        number = int(input("\nSelect an entry number: "))
+
+        entry = view_entry(entries, number)
+
+        print("\nWebsite:", entry.get_website())
+        print("Username:", entry.get_username())
+        print("Password:", entry.get_password())
+
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+
+    except IndexError as error:
+        print(f"Error: {error}")
+
+#Display all saved websites
+def list_passwords(entries):
+
+    print("\n--- Saved Passwords ---")
+
+    results = list_entries(entries)
+
+    if not results:
+        print("No passwords saved yet.")
+        return
+
+    for result in results:
+        print(f"{result['number']}. {result['website']} - {result['username']}")
+    
