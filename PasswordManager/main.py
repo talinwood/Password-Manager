@@ -65,4 +65,27 @@ def list_passwords(entries):
 
     for result in results:
         print(f"{result['number']}. {result['website']} - {result['username']}")
-    
+
+#Main program loop
+def main():
+
+    entries = []
+
+    while True:
+        display_menu()
+        choice = input("Select an option: ")
+
+        if choice == "1":
+            add_password(entries)
+        elif choice == "2":
+            view_password(entries)
+        elif choice == "3":
+            list_passwords(entries)
+        elif choice == "4":
+            print("Exiting Password Manager. Goodbye!")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+if __name__ == "__main__":
+    main()
