@@ -1,9 +1,9 @@
 class PasswordEntry:
 
     def __init__(self, username, password, website):
+        self.website = website
         self.username = username
         self.password = password
-        self.website = website
 
     #Getters
     def get_website(self):
