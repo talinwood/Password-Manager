@@ -1,6 +1,6 @@
 class PasswordEntry:
 
-    def __init__(self, username, password, website):
+    def __init__(self, website, username, password):
         self.website = website
         self.username = username
         self.password = password
@@ -35,5 +35,5 @@ class PasswordEntry:
     
     @classmethod
     def from_dict(cls, data):
-        return cls(data["username"], data["password"], data["website"])
+        return cls(data["website"], data["username"], data["password"])
     
