@@ -6,9 +6,9 @@ import base64
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.exceptions import InvalidTag
 
-salt_size = 16 # random per save so same pass never makes same key
+salt_size = 16 # random per save so same pass never makes same key (dif key every single save)
 nonce_size = 12 
-key_size = 32 # 32 bytes is 256 bits
+key_size = 32 # 32 bytes is 256 bits (AES-256)
 iterations = 600000 # many iterations so its slow to mitigate brute force attack
 
 
@@ -19,9 +19,9 @@ def derive_key(master_pass, salt):
 
 
 # encrypts the vault and returns everything thats needed to decrypt it later
-# master pass and key are NEVER stored, only the salt, nonce and the ciphertext are
+# master pass and key are NEVER stored, only the salt, nonce and the ciphertext are saved
 def encrypt_vault(plaintext, master_pass):
-    # new random salt and nonce every save to prevent attacks
+    # new random salt and nonce every save so a nonce is never reused with the same key
     salt = os.urandom(salt_size)
     nonce = os.urandom(nonce_size)
 
@@ -91,3 +91,37 @@ if __name__ == "__main__":
         decrypt_vault(encrypted, "wrongpass")
     except ValueError as e:
         print("Wrong password: ", e)
+
+
+    # modified file, changing just one char of the ciphertext
+    # (making sure that the character actually changes)
+    c = encrypted["ciphertext"]
+    if c[0] == "A":
+        encrypted["ciphertext"] = "B" + c[1:]
+    else:
+        encrypted["ciphertext"] = "A" + c[1:]
+
+    try:
+        decrypt_vault(encrypted, "testpass")
+        print("Modified file NOT detected!")
+    except ValueError as e:
+        print("Modified file detected: ", e)
+
+
+    # testing the timing
+    import time
+
+    # timing just 1 iteration vs our 600000 to show how much slower guessing gets
+    test_salt = os.urandom(salt_size)
+
+    start = time.time()
+    hashlib.pbkdf2_hmac("sha256", "testpass".encode(), test_salt, 1, key_size)
+    fast = time.time() - start
+
+    start = time.time()
+    derive_key("testpass", test_salt)
+    slow = time.time() - start
+
+    print("1 iteration: ", fast, "seconds")
+    print("600000 iterations: ", slow, "seconds")
+    print("Guesses per second for an attacker is about: ", 1 / slow)
