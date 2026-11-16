@@ -24,6 +24,6 @@ def save_vault(filepath, vault_data):
 # Load encrypted vault data from a file
 def load_vault(filepath):
 
-    # Check if the file exists
+    # open the vault file and read it
     with open(filepath, "r", encoding="utf-8") as file:
         return json.load(file)

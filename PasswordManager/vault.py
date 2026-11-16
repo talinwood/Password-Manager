@@ -22,7 +22,7 @@ def save_entries(filepath, entries, master_pass):
 
 
 # loads the vault file, decrypts it, and returns the entries
-# raises ValueError if password was wronng or file was modified
+# raises ValueError if password was wrong or file was modified
 def load_entries(filepath, master_pass):
 
     # loading and decrypting file
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     ]
     save_entries(test_file, entries, "testpass")
 
-    # showing whats actually in the file, should be no readable passwords (hopefully xD)
+    # showing whats actually in the file, should be no readable passwords (hopefully)
     with open(test_file, "r") as f:
         print("File contents: ", f.read())
 
