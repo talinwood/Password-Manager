@@ -1,3 +1,5 @@
+# python3 PasswordManager/encryption.py
+
 import os 
 import hashlib
 import base64

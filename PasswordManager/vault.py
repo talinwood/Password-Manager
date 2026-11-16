@@ -1,3 +1,5 @@
+# python3 PasswordManager/vault.py
+
 import json
 from encryption import encrypt_vault, decrypt_vault
 from storage import save_vault, load_vault
@@ -20,7 +22,7 @@ def save_entries(filepath, entries, master_pass):
 
 
 # loads the vault file, decrypts it, and returns the entries
-# raises ValueError if password was worong or file was modified
+# raises ValueError if password was wronng or file was modified
 def load_entries(filepath, master_pass):
 
     # loading and decrypting file
